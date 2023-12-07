@@ -6,7 +6,7 @@ defmodule Weather.OpenWeatherMap do
   @api_key System.get_env("OPENWEATHER_API_KEY")
 
   @open_weather_map_path "https://api.openweathermap.org/data/2.5/weather?q="
-  # TODO: location_data is in json. Does need to be converted before we give it to the API?
+  # TODO: location_data is in json. Does need to be converted before we give it to the API? Answer: Yes it does in order to access the fields needed.
   def get_the_weather(location_data) do
     response = Tesla.get!(@open_weather_map_path <> location_data)
     if response != nil do
