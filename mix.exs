@@ -22,7 +22,7 @@ defmodule Weather.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ecto , " ~> 3.7"},
+      {:ecto, " ~> 3.7"},
       {:postgrex, " >= 0.0.0"},
       {:ecto_sql, "~> 3.7"},
       {:absinthe, "~> 1.7"},

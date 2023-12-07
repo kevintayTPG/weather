@@ -13,12 +13,11 @@ def get_location(location) do
 end
 
 defp get_location_data(location) do
-  with {:ok, response} <- Tesla.get!("https://openweathermap.org/6.2/geocode.json?apiKey=#{System.get_env("GEOCODER_API_KEY")}&searchtext=#{location}") do
-    decoded_response = Jason.decode!(response.body, keys: :atoms!)
-    {:ok, decoded_response}
-  else
-    {:error, reason} ->
-      {:error, reason}
+  response = Tesla.get!("https://openweathermap.org/6.2/geocode.json?apiKey=#{System.get_env("GEOCODER_API_KEY")}&searchtext=#{location}")
+    if response != nil do
+      {:ok, response}
+    else
+      {:error, "No response"}
+    end
   end
-end
 end

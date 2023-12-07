@@ -12,5 +12,4 @@ defmodule Weather.Graphql.Resolvers.WeatherResolver do
   def get_weather_by_location(_parent, args, _resolution) do
     WeatherService.get_weather_by_location(args)
   end
-
 end
