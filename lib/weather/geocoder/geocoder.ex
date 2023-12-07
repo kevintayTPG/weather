@@ -3,6 +3,8 @@ defmodule Weather.Geocoder do
 This module provides functions to geocode location using the geocoder api
 """
 
+@geocoder_path "https://geocode.maps.co/search?q="
+
 def get_location(location) do
   with {:ok, location_data} <- get_location_data(location) do
     {:ok, location_data}
@@ -13,7 +15,7 @@ def get_location(location) do
 end
 
 defp get_location_data(location) do
-  response = Tesla.get!("https://openweathermap.org/6.2/geocode.json?apiKey=#{System.get_env("GEOCODER_API_KEY")}&searchtext=#{location}")
+  response = Tesla.get!(@geocoder_path <> location)
     if response != nil do
       {:ok, response}
     else
