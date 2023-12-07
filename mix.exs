@@ -27,6 +27,8 @@ defmodule Weather.MixProject do
       {:ecto_sql, "~> 3.7"},
       {:absinthe, "~> 1.7"},
       {:absinthe_phoenix, "~> 2.0"},
+      {:jason, "~> 1.4.1"},
+      {:tesla, "~>1.8.0"}
     ]
   end
 end
