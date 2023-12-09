@@ -9,6 +9,11 @@ defmodule Weather.Queries.WeatherQueries do
   @spec filter_by_name(Queryable.t(), String.t()) :: Queryable.t()
   def filter_by_name(query, name) do
     from(w in query,
-      where: ilike(w.name, ^"%#{name}%"))
+      where: w.name == ^name)
+  end
+
+  def get_all_weather(query) do
+    from(w in query,
+      select: w)
   end
 end

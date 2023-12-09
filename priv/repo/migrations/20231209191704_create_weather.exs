@@ -3,6 +3,7 @@ defmodule Weather.Repo.Migrations.CreateWeather do
 
   def change do
     create table(:weather) do
+      add :id, :id, primary_key: true
       add :description, :string
       add :icon, :string
       add :temp, :float

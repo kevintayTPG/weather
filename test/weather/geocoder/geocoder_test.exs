@@ -1,5 +1,5 @@
 defmodule Weather.Geocoder.GeocoderTest do
-  @modudledoc """
+  @moduledoc """
   Geocoder test
   """
   use ExUnit.Case
