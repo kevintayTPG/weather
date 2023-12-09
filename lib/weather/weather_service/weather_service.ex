@@ -25,16 +25,15 @@ defmodule Weather.WeatherService do
   end
 
   def maybe_create_weather(location_name, weather) do
-    dbg(weather)
     case WeatherQueries.filter_by_name(Weather, location_name) do
       nil ->
         Weather
         |> Weather.changeset()
         |> Repo.insert()
       _ ->
-        Weather
-        |> Weather.update_changeset(weather)
-        |> Repo.update()
+        # Weather
+        # |> Weather.update_changeset(weather)
+        # |> Repo.update()
     end
   end
 end

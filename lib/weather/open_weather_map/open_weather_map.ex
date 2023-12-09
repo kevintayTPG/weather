@@ -9,7 +9,9 @@ defmodule Weather.OpenWeatherMap do
 
   def get_the_weather(location_data) do
     response = Tesla.get!(@open_weather_map_path <> "lat=#{location_data.lat}&lon=#{location_data.lon}&units=imperial&appid=#{@api_key}")
-    if response != nil do
+    if Map.has_key?(response, :status) do
+    case response.status do
+      200 ->
       decoded_response = decode_response(response)
       {:ok, %{
         name: decoded_response.name,
@@ -19,7 +21,14 @@ defmodule Weather.OpenWeatherMap do
           decoded_response.weather
         end,
       temps: decoded_response.main}}
-    else
+      400 ->
+      {:error, decode_response(response).message}
+
+      _ ->
+      {:error, "Unknown error"}
+      end
+
+      else
       {:error, "No response from API"}
     end
   end
