@@ -7,6 +7,10 @@ defmodule Weather.OpenWeatherMap do
 
   @open_weather_map_path "https://api.openweathermap.org/data/2.5/weather?"
 
+  @doc """
+  Get the weather by latitude and longitude within a map
+  """
+  @spec get_the_weather(map()) :: map()
   def get_the_weather(location_data) do
     response = Tesla.get!(@open_weather_map_path <> "lat=#{location_data.lat}&lon=#{location_data.lon}&units=imperial&appid=#{@api_key}")
     if Map.has_key?(response, :status) do

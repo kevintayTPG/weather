@@ -24,13 +24,28 @@ defmodule Weather.WeatherService do
     end
   end
 
-  def maybe_create_weather(location_name, weather) do
+  @doc """
+  Get weather by latitude and longitude
+  """
+  @spec get_and_or_create_weather_by_latlon(map()) :: map()
+  def get_and_or_create_weather_by_latlon(args) do
+    with {:ok, weather} <- OpenWeatherMap.get_the_weather(args) do
+      maybe_create_weather(weather.name, weather)
+      weather
+    else
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  @spec maybe_create_weather(String.t(), map()) :: map()
+  defp maybe_create_weather(location_name, weather) do
     case WeatherQueries.filter_by_name(Weather, location_name) do
       nil ->
         Weather
         |> Weather.changeset()
         |> Repo.insert()
-      _ ->
+      # _ ->
         # Weather
         # |> Weather.update_changeset(weather)
         # |> Repo.update()
