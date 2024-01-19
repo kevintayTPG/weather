@@ -5,7 +5,7 @@ This module provides functions to geocode location using the geocoder api
 @api_key System.get_env("OPENWEATHER_API_KEY")
 @geocoder_path "http://api.openweathermap.org/geo/1.0/direct?q="
 
-
+@spec get_location(String.t()) :: {:ok, map()} | {:error, String.t()}
 def get_location(location) do
   location = String.replace(location, " ", "+")
   response = Tesla.get!(@geocoder_path <> location <> "&appid=#{@api_key}")

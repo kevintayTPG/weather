@@ -5,7 +5,6 @@ defmodule Weather.Schemas.Weather do
   use Ecto.Schema
   alias Ecto.Changeset
 
-  @primary_key {:id, :id, autogenerate: true}
   schema "weather" do
     field :description, :string
     field :icon, :string
