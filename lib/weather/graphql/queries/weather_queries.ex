@@ -6,7 +6,7 @@ defmodule Weather.Graphql.Queries.WeatherQueries do
 
   alias Weather.Graphql.Resolvers.WeatherResolver
 
-  object :weather do
+  object :weather_queries do
     @desc "Get and create weather by city name"
     field :get_and_or_create_weather_by_location, :weather do
       arg(:location, non_null(:string))

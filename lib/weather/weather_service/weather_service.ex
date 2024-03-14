@@ -13,10 +13,10 @@ defmodule Weather.WeatherService do
   Get weather by location name
   """
   @spec get_and_or_create_weather_by_location(map()) :: map()
-  def get_and_or_create_weather_by_location(args) do
-    with {:ok, location_data} <- Geocoder.get_location(args.location),
+  def get_and_or_create_weather_by_location(%{location: location}) do
+    with {:ok, location_data} <- Geocoder.get_location(location),
          {:ok, weather} <- OpenWeatherMap.get_the_weather(location_data) do
-          maybe_create_weather(args.location, weather)
+          maybe_create_weather(location, weather)
     else
       {:error, reason} ->
         {:error, reason}
@@ -40,7 +40,7 @@ defmodule Weather.WeatherService do
   # If location is already in the database, update otherwise create
   @spec maybe_create_weather(String.t(), map()) :: map()
   defp maybe_create_weather(location_name, weather) do
-    case WeatherQueries.filter_by_name(Weather, location_name) |> Repo.one() do
+    case WeatherQueries.filter_by_name(location_name) |> Repo.one() do
       nil ->
         %Weather{}
         |> Weather.changeset()

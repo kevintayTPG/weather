@@ -7,18 +7,22 @@ This module provides functions to geocode location using the geocoder api
 
 @spec get_location(String.t()) :: {:ok, map()} | {:error, String.t()}
 def get_location(location) do
-  location = String.replace(location, " ", "+")
-  response = Tesla.get!(@geocoder_path <> location <> "&appid=#{@api_key}")
-    if response.body != "[]" do
-      {:ok, decode_response(response)}
-    else
-      {:error, "No response"}
-    end
-  end
+  parsed_location = String.replace(location, " ", "+")
 
-  def decode_response(response) do
-    decoded_response_list =Jason.decode!(response.body, keys: :atoms)
-    decoded_response_map = Enum.at(decoded_response_list, 0)
-    %{lat: decoded_response_map.lat, lon: decoded_response_map.lon}
+  with {:ok, %{body: body, status: status} = _response} <-
+    Tesla.get(@geocoder_path <> parsed_location <> "&appid=#{@api_key}"),
+  {:ok, decoded_body} <- Jason.decode(body, keys: :atoms) do
+    case status do
+      200 ->
+        {:ok, decoded_body}
+      _ ->
+        {:error, %{status: decoded_body.cod, message: decoded_body.message}}
+
+      end
+    else
+      {:error, _} ->
+        {:error, "unknown error"}
+
   end
+end
 end
